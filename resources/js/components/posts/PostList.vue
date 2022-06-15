@@ -1,5 +1,7 @@
 <template>
     <div>
+        <!-- loader -->
+        <Loader v-if="isLoading" />
         <!-- mostro i dati se l'array dei post non è vuoto -->
         <div v-if="posts.length">
         <!-- ciclo i dati dell'array posts !!ricordarsi :key -->
@@ -28,12 +30,17 @@
 <script>
 // importo axios per poter gestire i dati che gli passo tramite controller come se fosse una chiamata ad un api
 import axios from 'axios';
+import Loader from '../Loader.vue'
 export default {
     name: 'PostList',
+    components: {
+        Loader,
+    },
     data(){
         return {
             // mi creo un array vuoto che verrà riempito da axios con la chiamata
             posts: [],
+            isLoading: true,
         }
     },
     methods: {
@@ -45,6 +52,10 @@ export default {
                         // riempio l'array vuoto in data con gli elementi presi con axios
                         console.log(res.data.posts);
                         this.posts = res.data.posts;
+                    }).then(() => {
+                        // solo una volta caricati tutti i dati dall'api -> modifico la variabile così da far mostrare tutto 
+                        console.log('terminato il caricamento dei posts')
+                        this.isLoading = false;
                     })
         }
     },

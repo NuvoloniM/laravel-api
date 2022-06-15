@@ -17,7 +17,7 @@ class PostController extends Controller
     public function index()
     {
         //  mi comporto allo stesso modo del backend, mi creo una variabile che raccoglie tutti i dati del model
-        $posts = Post::orderBy('updated_at', 'DESC')->with('Category','tags' )->limit(5)->get();
+        $posts = Post::orderBy('updated_at', 'DESC')->with('Category','tags' )->get();
         // cambia il modo di ritornale la vista e i dati al suo interno 
         return response()->json(compact('posts'));
     }
